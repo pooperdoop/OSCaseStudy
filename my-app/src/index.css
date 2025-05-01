@@ -8,11 +8,15 @@ body{
  height: 100vh;
 }
 
-.titleText{
+.titleText {
   font-size: clamp(1.7rem, 2.5vw, 3rem);
 
 }
 
 .pageReference{
   font-size: clamp(1rem, 3vw, 4rem);
+}
+
+.buttonText{
+  font-size: clamp(1rem, 3vw, 2rem);
 }
