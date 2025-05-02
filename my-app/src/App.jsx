@@ -30,6 +30,21 @@ function App() {
     }
       setPages(randomizeArray);
 
+  } 
+
+  function handleChangeFrameNum(index){
+
+    if(frames.length<index){
+      for(let i = frames.length; i<index;i++){
+        setFrames(oldFrames => [...oldFrames, 0]); 
+      }
+    } else{
+      const arrayCopy = [...frames];
+      for(let j = index; j<frames.length; j++){
+        arrayCopy.pop();
+      }
+      setFrames(arrayCopy);
+    }
   }
 
   return (
@@ -47,8 +62,8 @@ function App() {
 
         <h1 className='H1text text-center mt-10'>No. of Frames</h1>
 
-        {framesNum.map((frameNum, _) =>
-        <button className='w-12/12 buttonText h-1/12 mb-4 rounded-2xl bg-gray-300 buttonText border-3'>{frameNum}</button>)}
+        {framesNum.map((frameNum, index) =>
+        <button className='w-12/12 buttonText h-1/12 mb-4 rounded-2xl bg-gray-300 buttonText border-3' key={index} onClick={() => handleChangeFrameNum(index+3)}>{frameNum}</button>)}
         <div className='h-fit flex justify-center'>
         <h1 className='H1text text-black text-center mt-1'>Faults:</h1>
         <h1 className='H1text text-center mt-1 text-red-700 font-bold'>{faults}</h1>
