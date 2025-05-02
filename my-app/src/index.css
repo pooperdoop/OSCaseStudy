@@ -8,6 +8,10 @@ body{
  height: 100vh;
 }
 
+.H1text{
+  font-size: clamp(1.2rem, 1.4vw, 3rem);
+}
+
 .titleText {
   font-size: clamp(1.7rem, 2.5vw, 3rem);
 
@@ -23,4 +27,15 @@ body{
 
 .frameText{
   font-size: clamp(1rem, 3vw, 2rem);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollBar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollBar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }

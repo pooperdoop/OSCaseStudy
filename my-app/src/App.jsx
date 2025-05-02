@@ -36,25 +36,27 @@ function App() {
     <section className='bg-gray-300 w-full h-full '>
     <div className='w-full h-1/12 bg-gray-600 border-4 justify-center items-center flex relative'>
         <h1 className='text-white titleText'>FIFO ALGORITHM</h1>
-        <p className='absolute bottom-0 right-2 text-white'>white = page, dark gray = frame</p>
+        <p className='absolute bottom-0 text-center text-white'>white = page, dark gray = frame</p>
     </div>
 
     <div className='h-11/12 w-full bg-white relative'>
-      <div className='h-full md:w-2/12 bg-gray-500 border-4 border-t-0 absolute left-0 w-5/12 flex-col justify-center'>
+      <div className='h-full md:w-2/12 bg-gray-500 border-4 border-t-0 absolute left-0 w-5/12 flex-col justify-center overflow-scroll scrollBar'>
         <button className='bg-green-300 h-fit w-12/12 rounded-2xl mt-8 buttonText border-3'>Run Algorithm</button>
 
         <button className='bg-blue-200 h-fit w-12/12 rounded-2xl mt-8 buttonText border-3' onClick={() => handleRandomizePages()}>Generate Random Pages</button>
 
-        <h1 className='buttonText text-center mt-10'>No. of Frames</h1>
+        <h1 className='H1text text-center mt-10'>No. of Frames</h1>
 
         {framesNum.map((frameNum, _) =>
         <button className='w-12/12 buttonText h-1/12 mb-4 rounded-2xl bg-gray-300 buttonText border-3'>{frameNum}</button>)}
+        <div className='h-fit flex justify-center'>
+        <h1 className='H1text text-black text-center mt-1'>Faults:</h1>
+        <h1 className='H1text text-center mt-1 text-red-700 font-bold'>{faults}</h1>
+        </div>
 
-        <h1 className='buttonText text-black text-center mt-1'>No. of Faults:</h1>
-        <h1 className='buttonText text-center mt-1 text-red-700 font-bold'>{faults}</h1>
       </div>
 
-      <div className='h-full md:w-10/12 bg-gray-400 border-4 border-t-0 border-l-0 absolute right-0 w-7/12 justify-center grid grid-cols-5 md:grid-cols-10 '>
+      <div className='h-full md:w-10/12 bg-gray-400 border-4 border-t-0 border-l-0 absolute right-0 w-7/12 justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar'>
 
         {pages.map((page, index)=>
             <div className='flex-col border justify-center items-center'>
