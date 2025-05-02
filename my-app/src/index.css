@@ -20,3 +20,7 @@ body{
 .buttonText{
   font-size: clamp(1rem, 3vw, 2rem);
 }
+
+.frameText{
+  font-size: clamp(1rem, 3vw, 2rem);
+}
