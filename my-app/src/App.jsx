@@ -75,11 +75,11 @@ function App() {
 
         {pages.map((page, index)=>
             <div className='flex-col border justify-center items-center'>
-                <div className='bg-gray-300 ml-auto mr-auto  w-fit h-fit p-2 rounded-3xl mt-2 text-7xl pageReference' key={index} onClick={() => handleChangeValue(index)}>
+                <div className='bg-gray-300 ml-auto mr-auto mb-2  w-fit h-fit p-2 rounded-3xl mt-2 text-7xl pageReference' key={index} onClick={() => handleChangeValue(index)}>
                   {page}
                 </div>
               {frames.map((frame,i)=>
-                <div className='bg-gray-500 ml-auto mr-auto  w-fit h-fit p-2 rounded mt-2 text-7xl frameText'>
+                <div className='bg-gray-500 ml-auto mr-auto  w-fit h-fit p-2 border text-7xl frameText'>
                   {frame}
                 </div>)}
             </div>)}
