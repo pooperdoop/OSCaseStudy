@@ -2,12 +2,24 @@ import React, { useState } from 'react'
 
 function App() {
 
+  let pageIndex = 0;
+  let frameIndex = 0;
+  let [frameNumber, setFrameNumber] = useState(3);
+  const frameBlock2d = [];
   const [pages, setPages] = useState([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
   const [nextText, setNextText] = useState("Start Algorithm");
-  const pageIndex = 0;
-  const [frames, setFrames] = useState([0,0,0]);
+  const [frames, setFrames] = useState(['-','-','-']);
+  const [framesReal, setRealFrames] = useState([]);
+  const [displayFrames, setDisplayFrames] = useState([]);
   const [framesNum, setFramesNum] = useState([3,4,5]);
   const [faults, setFaults] = useState(0);
+
+  window.onload = function(){
+    for(let o = 0; o<pages.length;o++){
+      setDisplayFrames((oldDisplay => [...oldDisplay,[frames]]))
+    }
+  }
+
 
   function handleChangeValue(index){
     
@@ -30,38 +42,67 @@ function App() {
       randomizeArray[i] = randomNum; 
     }
       setPages(randomizeArray);
-
+      console.log(displayFrames)
+      console.log(frames);
   } 
 
   function handleChangeFrameNum(index){
+    const arrayCopy = [...frames];
+    setFrameNumber(index)
 
-    if(frames.length<index){
+       if(frames.length<index){
       for(let i = frames.length; i<index;i++){
-        setFrames(oldFrames => [...oldFrames, 0]); 
+        arrayCopy.push('-');
       }
     } else{
-      const arrayCopy = [...frames];
+
       for(let j = index; j<frames.length; j++){
         arrayCopy.pop();
       }
-      setFrames(arrayCopy);
     }
+    setFrames(arrayCopy);
+    setDisplayFrames([]);
+    for(let o = 0; o<pages.length;o++){
+      setDisplayFrames((oldDisplay => [...oldDisplay,[arrayCopy]]))
+    }
+    console.log(arrayCopy) ;
   }
 
   function handleAlgoRun(){
-    setNextText("Next Step");
-    document.getElementById('randomizeButton').disabled = true;
-    const frameCount = document.querySelectorAll("#frameButtons");
-    for(var i = 0; i < frameCount.length; i++) 
-      frameCount[i].disabled = true;
-    
+    console.log(frameNumber)
+    for(let k = 0; k<frameBlock.length;k+=frameNumber){
+      frameBlock2d.push(frameBlock.slice(k, k + frameNumber));
+
+    }
+    if(nextText == "Start Algorithm"){
+      setNextText("Next Step");
+      document.getElementById('randomizeButton').disabled = true;
+      const frameCount = document.querySelectorAll("#frameButtons");
+      for(var i = 0; i < frameCount.length; i++) 
+        frameCount[i].disabled = true;
+    }
+
+    if(frameIndex == frames.length){
+      frameIndex = 0;
+    } else{
+      frames[frameIndex] = pages[pageIndex];
+      frameIndex++;
+    }
+    if(pageIndex == 20){
+      pageIndex = 0;
+    }else{
+      pageIndex++;
+    }
+
+
+    console.log(frameBlock2d)
+    console.log(frameIndex +"  "+pageIndex+"  "+frames.length);
   }
 
   return (
     <section className='bg-gray-300 w-full h-full '>
     <div className='w-full h-1/12 bg-gray-600 border-4 justify-center items-center flex relative'>
         <h1 className='text-white titleText'>FIFO ALGORITHM</h1>
-        <p className='absolute right-3 bottom-0 text-center text-white'>white = page, dark gray = frame</p>
     </div>
 
     <div className='h-11/12 w-full bg-white relative'>
@@ -80,22 +121,30 @@ function App() {
         </div>
 
       </div>
+      
+      <div className='h-1/12 w-7/12 md:w-10/12 absolute top-0 right-0  bg-gray-300 border-r-6 border-2 border-t-0 grid grid-cols-20 lg:flex items-center justify-center'>
 
-      <div className='h-full md:w-10/12 bg-gray-400 border-4 border-t-0 border-l-0 absolute right-0 w-7/12 justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar'>
-
+      <p className='absolute top-0 left-0'>Page Reference:</p>
+      
         {pages.map((page, index)=>
-            <div className='flex-col border justify-center items-center'>
-                <div className='bg-gray-300 ml-auto mr-auto mb-2  w-fit h-fit p-2 rounded-3xl mt-2 text-7xl pageReference' key={index} onClick={() => handleChangeValue(index)}>
-                  {page}
-                </div>
-              {frames.map((frame,i)=>
-                <div className='bg-gray-500 ml-auto mr-auto  w-fit h-fit p-2 border text-7xl frameText'>
-                  {frame}
-                </div>)}
-            </div>)}
+                  <p className='bg-gray-300 w-fit h-fit rounded-3xl lg:mt-2 text-7xl pageReference mr-5 mt-3 p-0' key={index} onClick={() => handleChangeValue(index)}>
+                    {page}
+                  </p>)}
 
       </div>
+      <div className='h-11/12 md:w-10/12 absolute bottom-0 right-0 w-7/12 border'>
+      <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar relative'>
 
+      {displayFrames.map((displayFrame,i)=>
+                <div className='border-2' id='frameBlock' key={i}>
+                  <div className='md:w-10 w-7 bg-gray-500 h-fit p-2 border text-7xl frameText'>
+                  {displayFrame}
+                  </div>
+                </div>)}
+
+
+       </div>
+      </div>
     </div>
 
     </section>
