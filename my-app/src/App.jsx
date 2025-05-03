@@ -87,10 +87,14 @@ function App() {
     if(nextText == "Start Algorithm"){
       setNextText("Next Step");
       document.getElementById('randomizeButton').disabled = true;
-      const frameCount = document.querySelectorAll("#frameButtons");
-      for(var i = 0; i < frameCount.length; i++) 
-        frameCount[i].disabled = true;
-    }
+      document.querySelectorAll('#frameButtons').forEach(el => {
+        el.disabled = true;
+      });
+      document.querySelectorAll('#manualClick').forEach(el => {
+        el.style.pointerEvents = 'none';
+      });
+      }
+
 
     let frameArrayCopyIndex;
     let framesArrayCopyFull = [...displayFrames];
@@ -160,7 +164,7 @@ function App() {
       <p className='absolute top-0 left-0'>Page Reference:</p>
       
         {pages.map((page, index)=>
-                  <p className='bg-gray-300 w-fit h-fit rounded-3xl lg:mt-2 text-7xl pageReference mr-5 mt-3 p-0' key={index} onClick={() => handleChangeValue(index)}>
+                  <p className='bg-gray-300 w-fit h-fit rounded-3xl lg:mt-2 text-7xl pageReference mr-5 mt-3 p-0'id='manualClick' key={index} onClick={() => handleChangeValue(index)}>
                     {page}
                   </p>)}
 
