@@ -12,6 +12,9 @@ function App() {
   const [framesNum, setFramesNum] = useState([3,4,5]);
   const [faults, setFaults] = useState(0);
 
+  const elements = document.querySelectorAll('#frameBlock');
+  const frameBlock = Array.from(elements);
+
   window.onload = function(){
     const updatedFrames = [];
 
@@ -101,8 +104,10 @@ function App() {
       } else{
         setFrameIndex(frameIndex+ 1);
       }
-
+      frameBlock[pageIndex].style.color = "red";
       setFaults(faults+1);
+    } else{
+      frameBlock[pageIndex].style.color = "#90EE90";
     }
     framesArrayCopyFull[pageIndex] = frameArrayCopyIndex;
 
@@ -156,12 +161,12 @@ function App() {
       <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items '>
 
       {displayFrames.map((displayFrame,i)=>
-                <div className='border-2' id='frameBlock' key={i}>
-                 {displayFrame.map((inner,innerIndex)=>
-                  <div className='ml-auto mr-auto border w-fit pageReference bg-gray-500 text-black' key={innerIndex}>
-                    {inner}
-                  </div>)}
-                </div>)}
+        <div className='border-2 border-black' id='frameBlock' key={i}>
+         {displayFrame.map((inner,innerIndex)=>
+          <div className='ml-auto mr-auto border w-fit pageReference bg-gray-500' key={innerIndex} id='displayedFrames'>
+            {inner}
+          </div>)}
+        </div>)}
 
 
        </div>
