@@ -75,13 +75,13 @@ function App() {
 
 
   function handleAlgoRun(){
-    // if(nextText == "Start Algorithm"){
-    //   setNextText("Next Step");
-    //   document.getElementById('randomizeButton').disabled = true;
-    //   const frameCount = document.querySelectorAll("#frameButtons");
-    //   for(var i = 0; i < frameCount.length; i++) 
-    //     frameCount[i].disabled = true;
-    // }
+    if(nextText == "Start Algorithm"){
+      setNextText("Next Step");
+      document.getElementById('randomizeButton').disabled = true;
+      const frameCount = document.querySelectorAll("#frameButtons");
+      for(var i = 0; i < frameCount.length; i++) 
+        frameCount[i].disabled = true;
+    }
 
     let frameArrayCopyIndex;
     let framesArrayCopyFull = [...displayFrames];
@@ -92,26 +92,31 @@ function App() {
       frameArrayCopyIndex = [...displayFrames[pageIndex-1]];
       console.log(displayFrames[pageIndex-1] +"  "+"The past")
     }
-    frameArrayCopyIndex[frameIndex] = pages[pageIndex];
+
+    if (!frameArrayCopyIndex.includes(pages[pageIndex])) {
+      frameArrayCopyIndex[frameIndex] = pages[pageIndex];
+
+      if(frameIndex == frames.length-1){
+        setFrameIndex(0);
+      } else{
+        setFrameIndex(frameIndex+ 1);
+      }
+
+      setFaults(faults+1);
+    }
     framesArrayCopyFull[pageIndex] = frameArrayCopyIndex;
 
+    // console.log(frameArrayCopyIndex+ "  frameArrayCopyIndex")
+    // console.log(framesArrayCopyFull);
 
-    console.log(frameArrayCopyIndex+ "  frameArrayCopyIndex")
-    console.log(framesArrayCopyFull);
 
-    if(frameIndex == frames.length-1){
-      setFrameIndex(0);
-    } else{
-      setFrameIndex(frameIndex+ 1);
-    }
     if(pageIndex == 20){
       setPageIndex(0);
     }else{
       setPageIndex(pageIndex+ 1);
     }
-    
+         setDisplayFrames(framesArrayCopyFull);
     console.log(pageIndex+"pageIndex    "+ frameIndex+"FrameIndex    D"+ frameNumber)
-    setDisplayFrames(framesArrayCopyFull);
   }
 
   return (
@@ -148,13 +153,14 @@ function App() {
 
       </div>
       <div className='h-11/12 md:w-10/12 absolute bottom-0 right-0 w-7/12 border'>
-      <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items relative'>
+      <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items '>
 
       {displayFrames.map((displayFrame,i)=>
                 <div className='border-2' id='frameBlock' key={i}>
-                  <div className='md:w-10 w-7 ml-auto mr-auto mb-auto mt-auto bg-gray-500 h-fit p-2 border text-7xl frameText'>
-                  {displayFrame}
-                  </div>
+                 {displayFrame.map((inner,innerIndex)=>
+                  <div className='ml-auto mr-auto border w-fit pageReference bg-gray-500 text-black' key={innerIndex}>
+                    {inner}
+                  </div>)}
                 </div>)}
 
 
