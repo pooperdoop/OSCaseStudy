@@ -2,27 +2,28 @@ import React, { useState } from 'react'
 
 function App() {
 
-  let pageIndex = 0;
-  let frameIndex = 0;
-  let [frameNumber, setFrameNumber] = useState(3);
-  const frameBlock2d = [];
+  const [pageIndex,setPageIndex] = useState(0);
+  const [frameIndex,setFrameIndex] = useState(0);
+  const [frameNumber, setFrameNumber] = useState(3);
   const [pages, setPages] = useState([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
   const [nextText, setNextText] = useState("Start Algorithm");
   const [frames, setFrames] = useState(['-','-','-']);
-  const [framesReal, setRealFrames] = useState([]);
   const [displayFrames, setDisplayFrames] = useState([]);
   const [framesNum, setFramesNum] = useState([3,4,5]);
   const [faults, setFaults] = useState(0);
 
   window.onload = function(){
-    for(let o = 0; o<pages.length;o++){
-      setDisplayFrames((oldDisplay => [...oldDisplay,[frames]]))
+    const updatedFrames = [];
+
+    for (let o = 0; o < pages.length; o++) {
+      updatedFrames.push(frames); // 
     }
+  
+    setDisplayFrames(updatedFrames);
   }
 
 
   function handleChangeValue(index){
-    
     const changeValue = [...pages];
     changeValue[index]++;
 
@@ -33,8 +34,9 @@ function App() {
     setPages(changeValue);
   }
 
-  function handleRandomizePages(){
 
+
+  function handleRandomizePages(){
     const randomizeArray = [...pages];
     
     for(let i=0; i< pages.length; i++){
@@ -45,6 +47,8 @@ function App() {
       console.log(displayFrames)
       console.log(frames);
   } 
+
+
 
   function handleChangeFrameNum(index){
     const arrayCopy = [...frames];
@@ -68,35 +72,46 @@ function App() {
     console.log(arrayCopy) ;
   }
 
+
+
   function handleAlgoRun(){
-    console.log(frameNumber)
-    for(let k = 0; k<frameBlock.length;k+=frameNumber){
-      frameBlock2d.push(frameBlock.slice(k, k + frameNumber));
+    // if(nextText == "Start Algorithm"){
+    //   setNextText("Next Step");
+    //   document.getElementById('randomizeButton').disabled = true;
+    //   const frameCount = document.querySelectorAll("#frameButtons");
+    //   for(var i = 0; i < frameCount.length; i++) 
+    //     frameCount[i].disabled = true;
+    // }
 
-    }
-    if(nextText == "Start Algorithm"){
-      setNextText("Next Step");
-      document.getElementById('randomizeButton').disabled = true;
-      const frameCount = document.querySelectorAll("#frameButtons");
-      for(var i = 0; i < frameCount.length; i++) 
-        frameCount[i].disabled = true;
-    }
+    let frameArrayCopyIndex;
+    let framesArrayCopyFull = [...displayFrames];
 
-    if(frameIndex == frames.length){
-      frameIndex = 0;
+    if(pageIndex == 0){
+      frameArrayCopyIndex = [...frames];
+    }else{
+      frameArrayCopyIndex = [...displayFrames[pageIndex-1]];
+      console.log(displayFrames[pageIndex-1] +"  "+"The past")
+    }
+    frameArrayCopyIndex[frameIndex] = pages[pageIndex];
+    framesArrayCopyFull[pageIndex] = frameArrayCopyIndex;
+
+
+    console.log(frameArrayCopyIndex+ "  frameArrayCopyIndex")
+    console.log(framesArrayCopyFull);
+
+    if(frameIndex == frames.length-1){
+      setFrameIndex(0);
     } else{
-      frames[frameIndex] = pages[pageIndex];
-      frameIndex++;
+      setFrameIndex(frameIndex+ 1);
     }
     if(pageIndex == 20){
-      pageIndex = 0;
+      setPageIndex(0);
     }else{
-      pageIndex++;
+      setPageIndex(pageIndex+ 1);
     }
-
-
-    console.log(frameBlock2d)
-    console.log(frameIndex +"  "+pageIndex+"  "+frames.length);
+    
+    console.log(pageIndex+"pageIndex    "+ frameIndex+"FrameIndex    D"+ frameNumber)
+    setDisplayFrames(framesArrayCopyFull);
   }
 
   return (
@@ -133,11 +148,11 @@ function App() {
 
       </div>
       <div className='h-11/12 md:w-10/12 absolute bottom-0 right-0 w-7/12 border'>
-      <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar relative'>
+      <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items relative'>
 
       {displayFrames.map((displayFrame,i)=>
                 <div className='border-2' id='frameBlock' key={i}>
-                  <div className='md:w-10 w-7 bg-gray-500 h-fit p-2 border text-7xl frameText'>
+                  <div className='md:w-10 w-7 ml-auto mr-auto mb-auto mt-auto bg-gray-500 h-fit p-2 border text-7xl frameText'>
                   {displayFrame}
                   </div>
                 </div>)}
