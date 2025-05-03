@@ -6,6 +6,7 @@ function App() {
   const [frameIndex,setFrameIndex] = useState(0);
   const [frameNumber, setFrameNumber] = useState(3);
   const [pages, setPages] = useState([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+  const [resetFrames, setResetFrames] = useState([]);
   const [nextText, setNextText] = useState("Start Algorithm");
   const [frames, setFrames] = useState(['-','-','-']);
   const [displayFrames, setDisplayFrames] = useState([]);
@@ -21,8 +22,8 @@ function App() {
     for (let o = 0; o < pages.length; o++) {
       updatedFrames.push(frames); // 
     }
-  
-    setDisplayFrames(updatedFrames);
+    setDisplayFrames(updatedFrames); 
+    setResetFrames(updatedFrames);
   }
 
 
@@ -68,16 +69,21 @@ function App() {
       }
     }
     setFrames(arrayCopy);
-    setDisplayFrames([]);
-    for(let o = 0; o<pages.length;o++){
-      setDisplayFrames((oldDisplay => [...oldDisplay,[arrayCopy]]))
+    const updatedFrames = [];
+
+    for (let o = 0; o < pages.length; o++) {
+      updatedFrames.push([...arrayCopy]); // 
     }
-    console.log(arrayCopy) ;
+    setDisplayFrames(updatedFrames); 
   }
 
 
 
   function handleAlgoRun(){
+    if(pageIndex > 19){
+      location.reload();
+    }
+
     if(nextText == "Start Algorithm"){
       setNextText("Next Step");
       document.getElementById('randomizeButton').disabled = true;
@@ -115,12 +121,14 @@ function App() {
     // console.log(framesArrayCopyFull);
 
 
-    if(pageIndex == 20){
-      setPageIndex(0);
-    }else{
-      setPageIndex(pageIndex+ 1);
+    if(pageIndex == 19){
+      setNextText('Restart Algorithm');
+      document.getElementById('algoButton').style.backgroundColor = "red"
     }
-         setDisplayFrames(framesArrayCopyFull);
+
+    setPageIndex(pageIndex+ 1);
+
+    setDisplayFrames(framesArrayCopyFull);
     console.log(pageIndex+"pageIndex    "+ frameIndex+"FrameIndex    D"+ frameNumber)
   }
 
@@ -132,7 +140,7 @@ function App() {
 
     <div className='h-11/12 w-full bg-white relative'>
       <div className='h-full md:w-2/12 bg-gray-500 border-4 border-t-0 absolute left-0 w-5/12 flex-col justify-center overflow-scroll scrollBar'>
-        <button className='bg-green-300 h-fit w-12/12 rounded-2xl mt-8 buttonText border-3' onClick={() => handleAlgoRun()}>{nextText}</button>
+        <button className='bg-green-300 h-fit w-12/12 rounded-2xl mt-8 buttonText border-3' id='algoButton' onClick={() => handleAlgoRun()}>{nextText}</button>
 
         <button className='bg-blue-200 h-fit w-12/12 rounded-2xl mt-8 buttonText border-3' id='randomizeButton' onClick={() => handleRandomizePages()}>Generate Random Pages</button>
 
