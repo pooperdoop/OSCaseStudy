@@ -172,7 +172,7 @@ function App() {
       <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items '>
 
       {displayFrames.map((displayFrame,i)=>
-        <div className={`border-2 border-black  ${faultedIndexes.includes(i) ? 'text-red-500' : ''}`} id='frameBlock' key={i}>
+        <div className={`border-2 border-black  ${faultedIndexes.includes(i) ? 'text-red-400' : ''}`} id='frameBlock' key={i}>
          {displayFrame.map((inner,innerIndex)=>
           <div className='ml-auto mr-auto border w-fit pageReference bg-gray-500' key={innerIndex} id='displayedFrames'>
             {inner}
