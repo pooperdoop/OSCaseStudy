@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useEffect } from 'react';
 
 function App() {
 
@@ -12,19 +13,21 @@ function App() {
   const [displayFrames, setDisplayFrames] = useState([]);
   const [framesNum, setFramesNum] = useState([3,4,5]);
   const [faults, setFaults] = useState(0);
+  const [faultedIndexes, setFaultedIndexes] = useState([]);
 
   const elements = document.querySelectorAll('#frameBlock');
   const frameBlock = Array.from(elements);
 
-  window.onload = function(){
+  useEffect(() => {
     const updatedFrames = [];
-
+  
     for (let o = 0; o < pages.length; o++) {
-      updatedFrames.push(frames); // 
+      updatedFrames.push([...frames]);
     }
+  
     setDisplayFrames(updatedFrames); 
     setResetFrames(updatedFrames);
-  }
+  }, []); 
 
 
   function handleChangeValue(index){
@@ -114,16 +117,12 @@ function App() {
       } else{
         setFrameIndex(frameIndex+ 1);
       }
-      frameBlock[pageIndex].style.color = "red";
+      setFaultedIndexes((prev) => [...prev, pageIndex]);
       setFaults(faults+1);
     } else{
       frameBlock[pageIndex].style.color = "#90EE90";
     }
     framesArrayCopyFull[pageIndex] = frameArrayCopyIndex;
-
-    // console.log(frameArrayCopyIndex+ "  frameArrayCopyIndex")
-    // console.log(framesArrayCopyFull);
-
 
     if(pageIndex == 19){
       setNextText('Restart Algorithm');
@@ -164,7 +163,7 @@ function App() {
       <p className='absolute top-0 left-0'>Page Reference:</p>
       
         {pages.map((page, index)=>
-                  <p className='bg-gray-300 w-fit h-fit rounded-3xl lg:mt-2 text-7xl pageReference mr-5 mt-3 p-0'id='manualClick' key={index} onClick={() => handleChangeValue(index)}>
+                  <p className='bg-gray-300 w-fit h-fit rounded-3xl lg:mt-2 text-7xl pageReference mr-5 mt-3 p-0 ' id='manualClick' key={index}  onClick={() => handleChangeValue(index)}>
                     {page}
                   </p>)}
 
@@ -173,7 +172,7 @@ function App() {
       <div className='h-full bg-gray-400 border-4 border-t-0 border-l-0 w-full justify-center grid grid-cols-5 md:grid-cols-10 overflow-scroll scrollBar items '>
 
       {displayFrames.map((displayFrame,i)=>
-        <div className='border-2 border-black' id='frameBlock' key={i}>
+        <div className={`border-2 border-black  ${faultedIndexes.includes(i) ? 'text-red-500' : ''}`} id='frameBlock' key={i}>
          {displayFrame.map((inner,innerIndex)=>
           <div className='ml-auto mr-auto border w-fit pageReference bg-gray-500' key={innerIndex} id='displayedFrames'>
             {inner}
